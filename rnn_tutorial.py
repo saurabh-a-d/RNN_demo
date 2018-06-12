@@ -223,8 +223,6 @@ train_operation_one_batch = tf.train.AdamOptimizer().minimize(avgLossBatch)
 
 ###=================  For N iterations, generate training batches & run loss minimization, plot accuracy & loss for each batch
 print("Starting training ...")
-lstAccuracyBatch = []
-lstLossBatch = []
 with tf.Session() as sess:
     sess.run(tf.global_variables_initializer())
     for kk in range(numIters):
@@ -239,8 +237,6 @@ with tf.Session() as sess:
         sess.run(train_operation_one_batch, feed_dict={trainingBatch_X: batch_X,  trainingBatch_y: batch_y}) #NOTE the diff between tf tensors & numpy arrays
         accuracyBatch = avgAccuracyBatch.eval(feed_dict={trainingBatch_X: batch_X,  trainingBatch_y: batch_y}) 
         lossBatch = avgLossBatch.eval(feed_dict={trainingBatch_X: batch_X,  trainingBatch_y: batch_y})
-        lstAccuracyBatch.append(accuracyBatch)
-        lstLossBatch.append(lossBatch)
         # print accuracy & loss after every 10th batch
         if kk % 10 == 0:
             print("Average prediction accuracy for the batch after iteration "+repr(kk)+" = "+repr(100*accuracyBatch)+" %")
@@ -248,8 +244,6 @@ with tf.Session() as sess:
     print("Training complete ...")
     print("")
     dummy = input("Press ENTER to continue ...")
-    # Plot batch-accuracy & batch-loss versus iteration-#
-    #TBD
 
 ###=================  Evaluate predictions on trained model on test set (by hiding test labels)
     # Let's check predictions on 4 random examples from the test set
